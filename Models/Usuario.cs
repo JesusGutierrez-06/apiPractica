@@ -13,7 +13,7 @@ namespace apiPractica.Models
         public int idtipo_usuario { get; set; }
         public string nombre { get; set; }
         public int tipo_documento { get; set; }
-        public string numero_documento { get; set; }
+        public string num_documento { get; set; }
         public string direccion { get; set; }
         public string email { get; set; }
         public string password { get; set; }

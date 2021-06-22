@@ -14,7 +14,7 @@ namespace apiPractica.Context
 
         }
         public DbSet<Persona> persona { get; set; }
-        public DbSet<Tipo_Usuario> tipo_usuario { get; set; }
+        public DbSet<TipoUsuario> tipousuario { get; set; }
         public DbSet<Usuario> usuario { get; set; }
     }
 }

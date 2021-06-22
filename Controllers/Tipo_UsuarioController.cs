@@ -1,30 +1,30 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using apiPractica.Context;
+using apiPractica.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using apiPractica.Context;
-using apiPractica.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace apiPractica.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PersonaController : ControllerBase
+    public class Tipo_UsuarioController : ControllerBase
     {
-        private readonly AppDbContext context;
-        public  PersonaController(AppDbContext _context)
+        private readonly AppDbContext _context;
+        public Tipo_UsuarioController(AppDbContext context)
         {
-            this.context = _context;
+            this._context = context;
         }
         [HttpGet]
         public ActionResult GetAll()
         {
             try
             {
-                return Ok(context.persona.ToList());
+                return Ok(_context.tipo_usuario.ToList());
             }
             catch (Exception ex)
             {
@@ -32,13 +32,13 @@ namespace apiPractica.Controllers
             }
         }
 
-        [HttpGet("{id}", Name ="GetById")]
+        [HttpGet("{id}")]
         public ActionResult GetById(int id)
         {
             try
             {
-                var persona = context.persona.FirstOrDefault(item => item.id == id);
-                return Ok(persona);
+                var tipo_usuario = _context.tipo_usuario.FirstOrDefault(item => item.id == id);
+                return Ok(tipo_usuario);
             }
             catch (Exception ex)
             {
@@ -46,13 +46,13 @@ namespace apiPractica.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Post([FromBody] Persona persona)
+        public ActionResult Post([FromBody] Tipo_Usuario tipo_usuario)
         {
             try
             {
-                context.persona.Add(persona);
-                context.SaveChanges();
-                return CreatedAtRoute("GetById", new { persona.id }, persona);
+                _context.tipo_usuario.Add(tipo_usuario);
+                _context.SaveChanges();
+                return CreatedAtRoute("GetById", new { tipo_usuario.id }, tipo_usuario);
             }
             catch (Exception ex)
             {
@@ -60,15 +60,15 @@ namespace apiPractica.Controllers
             }
         }
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Persona persona)
+        public ActionResult Put(int id, [FromBody] Tipo_Usuario tipo_usuario)
         {
             try
             {
-                if (persona.id == id)
+                if (tipo_usuario.id == id)
                 {
-                    context.Entry(persona).State = EntityState.Modified;
-                    context.SaveChanges();
-                    return CreatedAtRoute("GetById", new { id = persona.id }, persona);
+                    _context.Entry(tipo_usuario).State = EntityState.Modified;
+                    _context.SaveChanges();
+                    return CreatedAtRoute("GetById", new { id = tipo_usuario.id }, tipo_usuario);
                 }
                 else
                 {
@@ -85,11 +85,11 @@ namespace apiPractica.Controllers
         {
             try
             {
-                var persona = context.persona.FirstOrDefault(item => item.id == id);
-                if (persona != null)
+                var tipo_usuario = _context.tipo_usuario.FirstOrDefault(item => item.id == id);
+                if (tipo_usuario != null)
                 {
-                    context.persona.Remove(persona);
-                    context.SaveChanges();
+                    _context.tipo_usuario.Remove(tipo_usuario);
+                    _context.SaveChanges();
                     return Ok(id);
                 }
                 else
@@ -102,6 +102,5 @@ namespace apiPractica.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
     }
 }

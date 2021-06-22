@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace apiPractica.Models
 {
-    public class Tipo_Usuario
+    public class TipoUsuario
     {
         [Key]
         public int idtipo_usuario { get; set; }

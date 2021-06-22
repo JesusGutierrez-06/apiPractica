@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using apiPractica.Context;
 using apiPractica.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace apiPractica.Controllers
 {
@@ -15,7 +14,7 @@ namespace apiPractica.Controllers
     public class PersonaController : ControllerBase
     {
         private readonly AppDbContext context;
-        public PersonaController(AppDbContext _context)
+        public  PersonaController(AppDbContext _context)
         {
             this.context = _context;
         }
@@ -32,7 +31,7 @@ namespace apiPractica.Controllers
             }
         }
 
-        [HttpGet("{id}", Name = "GetById")]
+        [HttpGet("{idpersona}", Name ="GetById")]
         public ActionResult GetById(int id)
         {
             try
@@ -60,48 +59,6 @@ namespace apiPractica.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Persona persona)
-        {
-            try
-            {
-                if (persona.idpersona == id)
-                {
-                    context.Entry(persona).State = EntityState.Modified;
-                    context.SaveChanges();
-                    return CreatedAtRoute("GetById", new { id = persona.idpersona }, persona);
-                }
-                else
-                {
-                    return BadRequest();
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
-        {
-            try
-            {
-                var persona = context.persona.FirstOrDefault(item => item.idpersona == id);
-                if (persona != null)
-                {
-                    context.persona.Remove(persona);
-                    context.SaveChanges();
-                    return Ok(id);
-                }
-                else
-                {
-                    return BadRequest();
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+
     }
 }

@@ -12,10 +12,10 @@ namespace apiPractica.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PersonaController : ControllerBase
+    public class Tipo_UsuarioController : ControllerBase
     {
         private readonly AppDbContext context;
-        public PersonaController(AppDbContext _context)
+        public Tipo_UsuarioController(AppDbContext _context)
         {
             this.context = _context;
         }
@@ -24,21 +24,20 @@ namespace apiPractica.Controllers
         {
             try
             {
-                return Ok(context.persona.ToList());
+                return Ok(context.tipo_usuario.ToList());
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("{id}", Name = "GetById")]
+        [HttpGet("{id}")]
         public ActionResult GetById(int id)
         {
             try
             {
-                var persona = context.persona.FirstOrDefault(item => item.idpersona == id);
-                return Ok(persona);
+                var tipousuario = context.tipo_usuario.FirstOrDefault(item => item.idtipo_usuario == id);
+                return Ok(tipousuario);
             }
             catch (Exception ex)
             {
@@ -46,13 +45,13 @@ namespace apiPractica.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Post([FromBody] Persona persona)
+        public ActionResult Post([FromBody] Tipo_Usuario tipousuario)
         {
             try
             {
-                context.persona.Add(persona);
+                context.tipo_usuario.Add(tipousuario);
                 context.SaveChanges();
-                return CreatedAtRoute("GetById", new { persona.idpersona }, persona);
+                return CreatedAtRoute("GetById", new { tipousuario.idtipo_usuario }, tipousuario);
             }
             catch (Exception ex)
             {
@@ -61,15 +60,15 @@ namespace apiPractica.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Persona persona)
+        public ActionResult Put(int id, [FromBody] Tipo_Usuario tipousuario)
         {
             try
             {
-                if (persona.idpersona == id)
+                if (tipousuario.idtipo_usuario == id)
                 {
-                    context.Entry(persona).State = EntityState.Modified;
+                    context.Entry(tipousuario).State = EntityState.Modified;
                     context.SaveChanges();
-                    return CreatedAtRoute("GetById", new { id = persona.idpersona }, persona);
+                    return CreatedAtRoute("GetById", new { id = tipousuario.idtipo_usuario }, tipousuario);
                 }
                 else
                 {
@@ -86,10 +85,10 @@ namespace apiPractica.Controllers
         {
             try
             {
-                var persona = context.persona.FirstOrDefault(item => item.idpersona == id);
-                if (persona != null)
+                var tipousuario = context.tipo_usuario.FirstOrDefault(item => item.idtipo_usuario == id);
+                if (tipousuario != null)
                 {
-                    context.persona.Remove(persona);
+                    context.tipo_usuario.Remove(tipousuario);
                     context.SaveChanges();
                     return Ok(id);
                 }

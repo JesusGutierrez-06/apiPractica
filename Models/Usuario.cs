@@ -11,6 +11,7 @@ namespace apiPractica.Models
         [Key]
         public int idusuario { get; set; }
         public int idtipo_usuario { get; set; }
+        public Tipo_Usuario tipo_usuario { get; set; }
         public string nombre { get; set; }
         public string tipo_documento { get; set; }
         public string num_documento { get; set; }

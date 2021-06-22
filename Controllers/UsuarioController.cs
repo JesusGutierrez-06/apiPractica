@@ -12,10 +12,10 @@ namespace apiPractica.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PersonaController : ControllerBase
+    public class UsuarioController : ControllerBase
     {
         private readonly AppDbContext context;
-        public PersonaController(AppDbContext _context)
+        public UsuarioController(AppDbContext _context)
         {
             this.context = _context;
         }
@@ -24,21 +24,20 @@ namespace apiPractica.Controllers
         {
             try
             {
-                return Ok(context.persona.ToList());
+                return Ok(context.usuario.ToList());
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("{id}", Name = "GetById")]
+        [HttpGet("{id}")]
         public ActionResult GetById(int id)
         {
             try
             {
-                var persona = context.persona.FirstOrDefault(item => item.idpersona == id);
-                return Ok(persona);
+                var usuario = context.usuario.FirstOrDefault(item => item.idusuario == id);
+                return Ok(usuario);
             }
             catch (Exception ex)
             {
@@ -46,13 +45,13 @@ namespace apiPractica.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Post([FromBody] Persona persona)
+        public ActionResult Post([FromBody] Usuario usuario)
         {
             try
             {
-                context.persona.Add(persona);
+                context.usuario.Add(usuario);
                 context.SaveChanges();
-                return CreatedAtRoute("GetById", new { persona.idpersona }, persona);
+                return CreatedAtRoute("GetById", new { usuario.idusuario }, usuario);
             }
             catch (Exception ex)
             {
@@ -61,15 +60,15 @@ namespace apiPractica.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Persona persona)
+        public ActionResult Put(int id, [FromBody] Usuario usuario)
         {
             try
             {
-                if (persona.idpersona == id)
+                if (usuario.idusuario == id)
                 {
-                    context.Entry(persona).State = EntityState.Modified;
+                    context.Entry(usuario).State = EntityState.Modified;
                     context.SaveChanges();
-                    return CreatedAtRoute("GetById", new { id = persona.idpersona }, persona);
+                    return CreatedAtRoute("GetById", new { id = usuario.idusuario }, usuario);
                 }
                 else
                 {
@@ -86,10 +85,10 @@ namespace apiPractica.Controllers
         {
             try
             {
-                var persona = context.persona.FirstOrDefault(item => item.idpersona == id);
-                if (persona != null)
+                var usuario = context.usuario.FirstOrDefault(item => item.idusuario == id);
+                if (usuario != null)
                 {
-                    context.persona.Remove(persona);
+                    context.usuario.Remove(usuario);
                     context.SaveChanges();
                     return Ok(id);
                 }

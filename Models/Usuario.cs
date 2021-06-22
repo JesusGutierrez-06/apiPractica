@@ -9,10 +9,11 @@ namespace apiPractica.Models
     public class Usuario
     {
         [Key]
-        public int idusuario { get; set; }
-        public int idtipo_usuario { get; set; }
+        public int id { get; set; }
+        public int tipo_usuarioid { get; set; }
+        public Tipo_Usuario tipo_usuario { get; set; }
         public string nombre { get; set; }
-        public int tipo_documento { get; set; }
+        public string tipo_documento { get; set; }
         public string num_documento { get; set; }
         public string direccion { get; set; }
         public string email { get; set; }

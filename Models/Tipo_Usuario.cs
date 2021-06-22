@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace apiPractica.Models
 {
-    public class TipoUsuario
+    public class Tipo_Usuario
     {
         [Key]
-        public int idtipo_usuario { get; set; }
+        public int id { get; set; }
         public string nombre { get; set; }
         public string descripcion { get; set; }
         public bool estado { get; set; }

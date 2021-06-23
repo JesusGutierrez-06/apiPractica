@@ -12,10 +12,10 @@ namespace apiPractica.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Detalle_VentaController : ControllerBase
+    public class Detalle_CompraController : ControllerBase
     {
         private readonly AppDbContext _context;
-        public Detalle_VentaController(AppDbContext context)
+        public Detalle_CompraController(AppDbContext context)
         {
             this._context = context;
         }
@@ -24,7 +24,7 @@ namespace apiPractica.Controllers
         {
             try
             {
-                return Ok(_context.detalle_venta.Include(e => e.venta).Include(e => e.articulo).ToList());
+                return Ok(_context.detalle_compra.Include(e => e.compra).Include(e => e.articulo).ToList());
             }
             catch (Exception ex)
             {
@@ -36,8 +36,8 @@ namespace apiPractica.Controllers
         {
             try
             {
-                var detalle_venta = _context.detalle_venta.Include(e => e.venta).Include(e => e.articulo).FirstOrDefault(e => e.id == id);
-                return Ok(detalle_venta);
+                var detalle_compra = _context.detalle_compra.Include(e => e.compra).Include(e => e.articulo).FirstOrDefault(e => e.id == id);
+                return Ok(detalle_compra);
             }
             catch (Exception ex)
             {
@@ -45,23 +45,22 @@ namespace apiPractica.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Post([FromBody] Detalle_Venta detalle_venta)
+        public ActionResult Post([FromBody] Detalle_Compra detalle_compra)
         {
             try
             {
                 //_context.usuario.Add(usuario);
-                var ventas = _context.venta.FirstOrDefault(t => t.id == detalle_venta.ventaid);
-                var articulos = _context.articulo.FirstOrDefault(t => t.id == detalle_venta.articuloid);
-                _context.Add(new Detalle_Venta
+                var compras = _context.compra.FirstOrDefault(t => t.id == detalle_compra.compraid);
+                var articulos = _context.articulo.FirstOrDefault(t => t.id == detalle_compra.articuloid);
+                _context.Add(new Detalle_Compra
                 {
-                    venta = ventas,
+                    compra = compras,
                     articulo = articulos,
-                    cantidad = detalle_venta.cantidad,
-                    precio = detalle_venta.precio,
-                    descuento = detalle_venta.descuento
+                    cantidad = detalle_compra.cantidad,
+                    precio = detalle_compra.precio,
                 });
                 _context.SaveChanges();
-                return CreatedAtRoute("GetById", new { detalle_venta.id }, detalle_venta);
+                return CreatedAtRoute("GetById", new { detalle_compra.id }, detalle_compra);
             }
             catch (Exception ex)
             {
@@ -69,24 +68,23 @@ namespace apiPractica.Controllers
             }
         }
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Detalle_Venta detalle_venta)
+        public ActionResult Put(int id, [FromBody] Detalle_Compra detalle_compra)
         {
             try
             {
-                if (detalle_venta.id == id)
+                if (detalle_compra.id == id)
                 {
-                    var ventas = _context.venta.FirstOrDefault(t => t.id == detalle_venta.ventaid);
-                    var articulos = _context.articulo.FirstOrDefault(e => e.id == detalle_venta.articuloid);
-                    var detalle_ventas = _context.detalle_venta.FirstOrDefault(e => e.id == detalle_venta.id);
+                    var compras = _context.compra.FirstOrDefault(t => t.id == detalle_compra.compraid);
+                    var articulos = _context.articulo.FirstOrDefault(e => e.id == detalle_compra.articuloid);
+                    var detalle_compras = _context.detalle_compra.FirstOrDefault(e => e.id == detalle_compra.id);
 
-                    detalle_ventas.venta = ventas;
-                    detalle_ventas.articulo= articulos;
-                    detalle_ventas.cantidad = detalle_venta.cantidad;
-                    detalle_ventas.precio = detalle_venta.precio;
-                    detalle_ventas.descuento = detalle_venta.descuento;
+                    detalle_compras.compra = compras;
+                    detalle_compras.articulo = articulos;
+                    detalle_compras.cantidad = detalle_compra.cantidad;
+                    detalle_compras.precio = detalle_compra.precio;
                     //                    _context.Entry(usuario).State = EntityState.Modified;
                     _context.SaveChanges();
-                    return CreatedAtRoute("GetById", new { id = detalle_venta.id }, detalle_venta);
+                    return CreatedAtRoute("GetById", new { id = detalle_compra.id }, detalle_compra);
                 }
                 else
                 {
@@ -103,10 +101,10 @@ namespace apiPractica.Controllers
         {
             try
             {
-                var detalle_venta = _context.detalle_venta.FirstOrDefault(item => item.id == id);
-                if (detalle_venta != null)
+                var detalle_compra = _context.detalle_compra.FirstOrDefault(item => item.id == id);
+                if (detalle_compra != null)
                 {
-                    _context.detalle_venta.Remove(detalle_venta);
+                    _context.detalle_compra.Remove(detalle_compra);
                     _context.SaveChanges();
                     return Ok(id);
                 }
